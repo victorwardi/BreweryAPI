@@ -1,4 +1,4 @@
-package guru.springframeworl.lccbeerservice;
+package guru.springframework.lccbeerservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
