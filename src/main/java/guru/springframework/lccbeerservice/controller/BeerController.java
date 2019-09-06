@@ -21,12 +21,12 @@ public class BeerController {
 
     @PostMapping()
     public ResponseEntity<BeerDTO> addBeer(@RequestBody BeerDTO beer) {
-        return new ResponseEntity<>(BeerDTO.builder().build(), HttpStatus.OK);
+        return new ResponseEntity<>(BeerDTO.builder().build(), HttpStatus.CREATED);
     }
 
     @PutMapping("/{beerId}")
     public ResponseEntity<BeerDTO> updateBeer( @PathVariable("beerId")UUID beerId, @RequestBody BeerDTO beer) {
-        return new ResponseEntity<>(BeerDTO.builder().build(), HttpStatus.OK);
+        return new ResponseEntity<>(BeerDTO.builder().build(), HttpStatus.NO_CONTENT);
     }
 
 }
