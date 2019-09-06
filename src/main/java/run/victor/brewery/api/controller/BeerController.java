@@ -1,6 +1,6 @@
-package guru.springframework.lccbeerservice.controller;
+package run.victor.brewery.api.controller;
 
-import guru.springframework.lccbeerservice.model.BeerDTO;
+import run.victor.brewery.api.model.BeerDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

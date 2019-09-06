@@ -1,4 +1,4 @@
-package guru.springframework.lccbeerservice.model;
+package run.victor.brewery.api.model;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

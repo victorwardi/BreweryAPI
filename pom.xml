@@ -8,11 +8,11 @@
         <version>2.1.8.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>guru.springframeworl</groupId>
-    <artifactId>lcc-beer-service</artifactId>
+    <groupId>run.victor</groupId>
+    <artifactId>brewery-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>lcc-beer-service</name>
-    <description>Beer Project from SpringGuru Microservice Course</description>
+    <name>brewery-api</name>
+    <description>Beer API</description>
 
     <properties>
         <java.version>11</java.version>

@@ -1,4 +1,4 @@
-package guru.springframework.lccbeerservice.model.enums;
+package run.victor.brewery.api.model.enums;
 
 /**
  * Created by Victor Wardi - @victorwardi on 9/6/2019

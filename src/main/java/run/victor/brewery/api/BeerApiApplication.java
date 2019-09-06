@@ -1,13 +1,13 @@
-package guru.springframework.lccbeerservice;
+package run.victor.brewery.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LccBeerServiceApplication {
+public class BeerApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LccBeerServiceApplication.class, args);
+        SpringApplication.run(BeerApiApplication.class, args);
     }
 
 }

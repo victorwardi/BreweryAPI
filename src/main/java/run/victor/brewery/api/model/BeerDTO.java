@@ -1,6 +1,6 @@
-package guru.springframework.lccbeerservice.model;
+package run.victor.brewery.api.model;
 
-import guru.springframework.lccbeerservice.model.enums.BeerStyleEnum;
+import run.victor.brewery.api.model.enums.BeerStyleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
