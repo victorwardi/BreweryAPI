@@ -1,1 +1,2 @@
-# lc-beer-service
+# MSSC BEER SERVICE
+Spring boot microservice
