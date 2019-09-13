@@ -1,25 +1,29 @@
 package run.victor.brewery.api.controller;
 
+import java.util.UUID;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import run.victor.brewery.api.model.BeerDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.UUID;
+import run.victor.brewery.api.model.BeerDTO;
+import run.victor.brewery.api.service.BeerService;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by Victor Wardi - @victorwardi on 9/6/2019
  */
-
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
+
+    @MockBean
+    BeerService beerService;
 
     @Autowired
     MockMvc mockMvc;
@@ -27,8 +31,12 @@ class BeerControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    BeerDTO validBeer;
+
     @BeforeEach
     void setUp() {
+
+        validBeer = BeerDTO.builder().beerName("Beer1").build();
     }
 
     @Test

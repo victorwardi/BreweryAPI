@@ -1,25 +1,24 @@
 package run.victor.brewery.api.controller;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import run.victor.brewery.api.model.BeerDTO;
 import run.victor.brewery.api.service.BeerService;
 
 /**
  * Created by Victor Wardi - @victorwardi on 9/6/2019.
  */
+@Validated
 @RestController
 @RequestMapping("/api/v1/beers")
 public class BeerController {
@@ -37,7 +36,7 @@ public class BeerController {
     }
 
     @PostMapping()
-    public ResponseEntity addBeer(@RequestBody BeerDTO beer) {
+    public ResponseEntity addBeer(@Valid @RequestBody BeerDTO beer) {
 
         BeerDTO beerDTO = beerService.addBeer(beer);
         HttpHeaders headers = new HttpHeaders();
@@ -47,7 +46,7 @@ public class BeerController {
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity<BeerDTO> updateBeer(@PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beer) {
+    public ResponseEntity<BeerDTO> updateBeer(@NotNull  @PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beer) {
         return new ResponseEntity<>(BeerDTO.builder().build(), HttpStatus.NO_CONTENT);
     }
 
@@ -55,5 +54,15 @@ public class BeerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBeer(@PathVariable("beerId") UUID beerId) {
         beerService.deleteById(beerId);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List> validationErrosHandler(ConstraintViolationException e) {
+
+        List<String> erros = new ArrayList<>(e.getConstraintViolations().size());
+        e.getConstraintViolations().forEach(constraintViolation -> {
+            erros.add(constraintViolation.getPropertyPath() + " : " + constraintViolation.getMessage());
+        });
+        return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
     }
 }
