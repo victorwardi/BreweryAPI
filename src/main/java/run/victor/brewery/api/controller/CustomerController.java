@@ -1,13 +1,21 @@
 package run.victor.brewery.api.controller;
 
+import javax.validation.Valid;
+import java.util.UUID;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import run.victor.brewery.api.model.CustomerDTO;
 import run.victor.brewery.api.service.CustomerService;
-
-import java.util.UUID;
 
 /**
  * Created by Victor Wardi - @victorwardi on 9/4/2019
@@ -28,7 +36,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity addCustomer(@RequestBody CustomerDTO customer){
+    public ResponseEntity addCustomer(@Valid @RequestBody CustomerDTO customer){
         CustomerDTO customerDTO = customerService.addCustomer(customer);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/customers" + customerDTO.getId().toString());
@@ -37,7 +45,7 @@ public class CustomerController {
 
     @PutMapping("/{customerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCustomer (@PathVariable UUID customerId, @RequestBody CustomerDTO customer){
+    public void updateCustomer (@PathVariable UUID customerId, @Valid @RequestBody CustomerDTO customer){
         CustomerDTO customerDTO = customerService.updateCustomer(customerId, customer);
     }
 
