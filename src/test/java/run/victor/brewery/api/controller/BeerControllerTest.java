@@ -1,5 +1,6 @@
 package run.victor.brewery.api.controller;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import run.victor.brewery.api.model.BeerDTO;
+import run.victor.brewery.api.model.enums.BeerStyleEnum;
 import run.victor.brewery.api.service.BeerService;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,7 +38,13 @@ class BeerControllerTest {
     @BeforeEach
     void setUp() {
 
-        validBeer = BeerDTO.builder().beerName("Beer1").build();
+        validBeer = BeerDTO.builder()
+            .beerName("Beer1")
+            .beerStyle(BeerStyleEnum.ALE)
+            .price(new BigDecimal(10.0))
+            .upc(123456L)
+
+            .build();
     }
 
     @Test
@@ -51,8 +59,7 @@ class BeerControllerTest {
     @Test
     void addBeer() throws Exception {
 
-        BeerDTO beerDTO = BeerDTO.builder().build();
-        String json = objectMapper.writeValueAsString(beerDTO);
+        String json = objectMapper.writeValueAsString(validBeer);
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/v1/beers/")
                         .contentType(MediaType.APPLICATION_JSON)

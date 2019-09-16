@@ -43,7 +43,13 @@ public class BeerController {
     @PostMapping()
     public ResponseEntity addBeer(@Valid @RequestBody BeerDTO beer) {
 
-        BeerDTO beerDTO = beerService.addBeer(beer);
+
+        BeerDTO beerDTO = null;
+        try {
+            beerDTO = beerService.addBeer(beer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         HttpHeaders headers = new HttpHeaders();
 
         headers.add("Location", "/api/v1/beer/" + beerDTO.getId().toString());

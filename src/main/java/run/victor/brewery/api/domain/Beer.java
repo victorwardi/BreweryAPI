@@ -1,13 +1,13 @@
 package run.victor.brewery.api.domain;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import run.victor.brewery.api.model.enums.BeerStyleEnum;
 
 /**
  * Created by Victor Wardi - @victorwardi on 9/16/2019
@@ -15,16 +15,17 @@ import run.victor.brewery.api.model.enums.BeerStyleEnum;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Beer {
 
         private UUID id;
         private Integer version;
 
-        private OffsetDateTime createdDate;
-        private OffsetDateTime lastModifiedDate;
+        private Timestamp createdDate;
+        private Timestamp lastModifiedDate;
 
-        private String beerName;
-        private BeerStyleEnum beerStyle;
+        private String name;
+        private String beerStyle;
 
         private Long upc;
         private BigDecimal price;
