@@ -7,22 +7,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import run.victor.brewery.api.model.BeerDTO;
 import run.victor.brewery.api.model.enums.BeerStyleEnum;
+import run.victor.brewery.api.repository.BeerRepository;
 import run.victor.brewery.api.service.BeerService;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by Victor Wardi - @victorwardi on 9/6/2019
  */
+
+@AutoConfigureRestDocs
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
+
+    @MockBean
+    BeerRepository beerRepository;
 
     @MockBean
     BeerService beerService;
@@ -51,9 +62,28 @@ class BeerControllerTest {
     void getBeerById() throws Exception {
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/v1/beers/" + UUID.randomUUID().toString())
-                        .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
+            get("/api/v1/beers/{beerId}", UUID.randomUUID().toString())
+                .param("iscold", "yes")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andDo(document("v1/beer",
+                pathParameters(
+                    parameterWithName("beerId").description("UUID of desired beer to get.")
+                ),
+                requestParameters(
+                    parameterWithName("iscold").description("Is Beer Cold Query param")
+                ),
+                responseFields(
+                    fieldWithPath("id").description("Id of Beer"),
+                    fieldWithPath("version").description("Version number"),
+                    fieldWithPath("createdDate").description("Date Created"),
+                    fieldWithPath("lastModifiedDate").description("Date Updated"),
+                    fieldWithPath("beerName").description("Beer Name"),
+                    fieldWithPath("beerStyle").description("Beer Style"),
+                    fieldWithPath("upc").description("UPC of Beer"),
+                    fieldWithPath("price").description("Price"),
+                    fieldWithPath("quantityOnHand").description("Quantity On hand")
+                )));
     }
 
     @Test
@@ -61,10 +91,10 @@ class BeerControllerTest {
 
         String json = objectMapper.writeValueAsString(validBeer);
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/beers/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isCreated());
+            post("/api/v1/beers/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+            .andExpect(status().isCreated());
     }
 
     @Test
@@ -73,9 +103,9 @@ class BeerControllerTest {
         BeerDTO beerDTO = BeerDTO.builder().build();
         String json = objectMapper.writeValueAsString(beerDTO);
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/api/v1/beers/"+ UUID.randomUUID().toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isNoContent());
+            put("/api/v1/beers/" + UUID.randomUUID().toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+            .andExpect(status().isNoContent());
     }
 }

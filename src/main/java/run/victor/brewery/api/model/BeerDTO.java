@@ -43,4 +43,6 @@ public class BeerDTO {
 
     private BigDecimal price;
 
+    private Integer quantityOnHand;
+
 }

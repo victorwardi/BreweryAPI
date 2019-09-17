@@ -2,6 +2,8 @@ package run.victor.brewery.api.controller;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import run.victor.brewery.api.model.BeerDTO;
+import run.victor.brewery.api.model.enums.BeerStyleEnum;
 import run.victor.brewery.api.service.BeerService;
 
 /**
@@ -37,6 +40,15 @@ public class BeerController {
     @GetMapping("/{beerId}")
     public ResponseEntity<BeerDTO> getBeerById(@PathVariable("beerId") UUID beerId) {
         BeerDTO beerDTO = beerService.getBeerById(beerId);
+        beerDTO = BeerDTO.builder()
+            .id(UUID.randomUUID())
+            .beerName("Beer1")
+            .beerStyle(BeerStyleEnum.ALE)
+            .price(new BigDecimal(10.0))
+            .upc(123456L)
+            .quantityOnHand(50)
+            .createdDate(OffsetDateTime.now())
+            .build();
         return new ResponseEntity<>(beerDTO, HttpStatus.OK);
     }
 
